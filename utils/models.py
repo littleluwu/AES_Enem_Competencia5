@@ -1,4 +1,5 @@
 import torch.nn as nn
+import torch
 
 class ClassificationHead(nn.Module):
     def __init__(self, input_size, targets=6):
@@ -13,3 +14,13 @@ class ClassificationHead(nn.Module):
     def forward(self, x):
         return self.fc(x)
     
+
+
+def save_model(model, name):
+    torch.save({'model_state': model.state_dict()}, f"../saves/{name}.pt")
+    return
+
+
+def load_model(name):
+    checkpoint = torch.load(f"../saves/{name}.pt")
+    return checkpoint['model_state']
