@@ -17,10 +17,10 @@ class ClassificationHead(nn.Module):
 
 
 def save_model(model, name):
-    torch.save({'model_state': model.state_dict()}, f"../saves/{name}.pt")
+    torch.save({'model_state': model.state_dict()}, f"./saves/{name}.pt")
     return
 
 
 def load_model(name):
-    checkpoint = torch.load(f"../saves/{name}.pt")
+    checkpoint = torch.load(f"./saves/{name}.pt")
     return checkpoint['model_state']
