@@ -1,16 +1,17 @@
 import torch.nn as nn
 import torch
+from utils.eval import eval
 
-def train(model, train_loader, num_epochs, lr, weight_decay,  device):
+def train(model, train_loader, test_loader, num_epochs, lr, weight_decay,  device):
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
 
 
     model.to(device)
-    model.train()
 
     print("\n--- Starting Training ---")
     for epoch in range(num_epochs):
+        model.train()
         running_loss = 0.0
         correct_predictions = 0
         total_predictions = 0
@@ -37,5 +38,8 @@ def train(model, train_loader, num_epochs, lr, weight_decay,  device):
         epoch_accuracy = correct_predictions / total_predictions
 
         print(f"|-> Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss:.4f}, Train Accuracy: {epoch_accuracy:.4f}")
+
+        if (epoch+1) % 10 == 0: 
+            eval(model=model, test_loader=test_loader, device=device)
 
     print("--- Training Finished ---")
